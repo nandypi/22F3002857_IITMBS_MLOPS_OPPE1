@@ -1,32 +1,24 @@
 from feast import FeatureStore
 import pandas as pd
 
-# Initialize Feast
+# Initialize Feast store
 store = FeatureStore(repo_path="feature_repo")
 
-# Load your processed Parquet file
-entity_df = pd.read_parquet("processed_features.parquet")
-entity_df = entity_df.sample(n=1000, random_state=42)
+# Load a small random sample
+df = pd.read_parquet("processed_features.parquet").sample(n=200, random_state=42)
 
-# Feast expects an event timestamp column
-if "timestamp" in entity_df.columns:
-    entity_df["event_timestamp"] = pd.to_datetime(entity_df["timestamp"])
+# Add event timestamp column
+df["event_timestamp"] = pd.to_datetime(df["timestamp"])
 
-# Retrieve features from Feast
-feature_data = store.get_historical_features(
-    entity_df=entity_df,
-    features=[
-        "stock_features:rolling_avg_10",
-        "stock_features:volume_sum_10",
-        "stock_features:target",
-    ],
-).to_df()
+# Define entity DataFrame
+entity_df = df[["stock_name", "event_timestamp"]]
 
-# Display results
-print("✅ Feast feature retrieval successful!")
-print("Shape:", feature_data.shape)
-print(feature_data.head())
+# 🔍 Print preview of sampled data
+print("✅ Sampled data preview (first 5 rows):")
+print(df.head())
 
-# Save a local preview
-feature_data.to_csv("feast_output_preview.csv", index=False)
-print("\n💾 Saved preview to feast_output_preview.csv")
+print("\n📊 Columns available:")
+print(df.columns.tolist())
+
+print("\n📈 Entity DataFrame sample:")
+print(entity_df.head())
