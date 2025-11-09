@@ -10,8 +10,8 @@ stock_entity = Entity(
     description="Stock symbol as entity",
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-DATA_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "processed_features.parquet"))
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_PATH = os.path.join(REPO_ROOT, "processed_features.parquet")
 
 # File source
 stock_source = FileSource(
