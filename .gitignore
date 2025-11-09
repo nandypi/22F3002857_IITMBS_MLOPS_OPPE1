@@ -2,3 +2,4 @@ venv
 .ipynb_checkpoints/
 feature_repo/data
 processed_features.csv
+processed_features.parquet
