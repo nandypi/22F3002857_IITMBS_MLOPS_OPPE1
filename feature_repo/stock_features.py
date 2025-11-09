@@ -1,3 +1,4 @@
+import os
 from datetime import timedelta
 from feast import FeatureView, Field, FileSource, Entity
 from feast.types import Float32, Int64, String
@@ -9,9 +10,12 @@ stock_entity = Entity(
     description="Stock symbol as entity",
 )
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_PATH = os.path.normpath(os.path.join(BASE_DIR, "..", "processed_features.parquet"))
+
 # File source
 stock_source = FileSource(
-    path="../processed_features.parquet",
+    path=DATA_PATH,
     event_timestamp_column="timestamp",
 )
 
