@@ -3,6 +3,9 @@ name: Simple CML Report Test
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   cml-test:
@@ -24,6 +27,8 @@ jobs:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "# ✅ CML Report Test" > report.md
-          echo "CML is working fine on this repo 🎉" >> report.md
+          echo "This workflow ran successfully 🎉" >> report.md
+          echo "Triggered by: ${{ github.event_name }}" >> report.md
+          echo "Branch: ${{ github.ref_name }}" >> report.md
           echo "Run time: $(date)" >> report.md
           cml comment create report.md
