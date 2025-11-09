@@ -50,8 +50,10 @@ def main():
 
     df = load_and_merge_data(input_dir)
     df = compute_features(df)
-    df.to_parquet(output_path, index=False)
-    df.to_csv("processed_features.csv", index=False)
+
+    df_small = df.sample(n=3000, random_state=42)
+    df_small.to_parquet(output_path, index=False)
+    df_small.to_csv("processed_features.csv", index=False)
     print(f"💾 Processed data saved to: {output_path}")
 
 

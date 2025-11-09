@@ -3,3 +3,5 @@ venv
 feature_repo/data
 processed_features.csv
 processed_features.parquet
+artifacts
+mlflow
